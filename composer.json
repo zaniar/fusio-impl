@@ -1,4 +1,4 @@
-{
+'2
   "name": "fusio/impl",
   "description": "Fusio implementation",
   "homepage": "http://fusio-project.org",
@@ -16,7 +16,6 @@
     "psx/openssl": "^1.0",
     "fusio/engine": "^1.0",
     "fusio/adapter-sql": "^1.0",
-    "fusio/adapter-v8": "^1.0",
     "fusio/adapter-util": "^1.0",
     "fusio/adapter-http": "^1.0",
     "fusio/adapter-php": "^1.0",
