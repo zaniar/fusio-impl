@@ -1,0 +1,158 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Fusio",
+    "version": "1"
+  },
+  "servers": [
+    {
+      "url": "http:\/\/127.0.0.1\/"
+    }
+  ],
+  "paths": {
+    "\/foo": {
+      "get": {
+        "operationId": "getCollection",
+        "responses": {
+          "200": {
+            "description": "GET 200 response",
+            "content": {
+              "application\/json": {
+                "schema": {
+                  "$ref": "#\/components\/schemas\/Collection"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "postEntry",
+        "requestBody": {
+          "content": {
+            "application\/json": {
+              "schema": {
+                "$ref": "#\/components\/schemas\/Entry"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "No schema was specified.",
+            "content": {
+              "application\/json": {
+                "schema": {
+                  "$ref": "#\/components\/schemas\/Passthru"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "app": [
+              "bar"
+            ]
+          }
+        ]
+      },
+      "parameters": []
+    }
+  },
+  "components": {
+    "schemas": {
+      "Entry": {
+        "type": "object",
+        "title": "entry",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Collection": {
+        "type": "object",
+        "title": "collection",
+        "properties": {
+          "totalResults": {
+            "type": "integer"
+          },
+          "itemsPerPage": {
+            "type": "integer"
+          },
+          "startIndex": {
+            "type": "integer"
+          },
+          "entry": {
+            "type": "array",
+            "items": {
+              "$ref": "#\/components\/schemas\/Entry"
+            }
+          }
+        }
+      },
+      "Passthru": {
+        "type": "object",
+        "title": "passthru",
+        "description": "No schema was specified."
+      }
+    },
+    "securitySchemes": {
+      "app": {
+        "type": "oauth2",
+        "flows": {
+          "password": {
+            "tokenUrl": "http:\/\/127.0.0.1\/authorization\/token",
+            "scopes": {
+              "bar": "Bar access",
+              "foo": "Foo access",
+              "authorization": "Authorization API endpoint"
+            }
+          },
+          "authorizationCode": {
+            "authorizationUrl": "http:\/\/127.0.0.1\/developer\/auth",
+            "tokenUrl": "http:\/\/127.0.0.1\/authorization\/token",
+            "scopes": {
+              "bar": "Bar access",
+              "foo": "Foo access",
+              "authorization": "Authorization API endpoint"
+            }
+          }
+        }
+      },
+      "backend": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "http:\/\/127.0.0.1\/backend\/token",
+            "scopes": {
+              "backend": "Access to the backend API"
+            }
+          }
+        }
+      },
+      "consumer": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "http:\/\/127.0.0.1\/consumer\/token",
+            "scopes": {
+              "consumer": "Consumer API endpoint"
+            }
+          }
+        }
+      }
+    }
+  }
+}
