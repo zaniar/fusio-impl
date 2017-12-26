@@ -19,21 +19,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Fusio\Impl;
+namespace Fusio\Impl\Tests\Connection;
+
+use Fusio\Engine\Parameters;
+use Fusio\Impl\Connection\System;
+use PSX\Framework\Dependency\Container;
 
 /**
- * Base
+ * SystemTest
  *
  * @author  Christoph Kappestein <christoph.kappestein@gmail.com>
  * @license http://www.gnu.org/licenses/agpl-3.0
  * @link    http://fusio-project.org
  */
-class Base
+class SystemTest extends \PHPUnit_Framework_TestCase
 {
-    const VERSION = '1.1.7';
-
-    public static function getVersion()
+    public function testConnection()
     {
-        return self::VERSION;
+        $container = new Container();
+        $container->set('connection', new \stdClass());
+
+        $connection = new System();
+        $connection->setContainer($container);
+
+        $config = new Parameters([]);
+
+        $this->assertEquals('System', $connection->getName());
+        $this->assertInstanceOf(\stdClass::class, $connection->getConnection($config));
     }
 }

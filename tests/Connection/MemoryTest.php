@@ -19,29 +19,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Fusio\Impl\Consumer\Schema\App;
+namespace Fusio\Impl\Tests\Connection;
 
-use PSX\Schema\SchemaAbstract;
+use Doctrine\DBAL\Connection;
+use Fusio\Engine\Parameters;
+use Fusio\Impl\Connection\Memory;
 
 /**
- * Token
+ * MemoryTest
  *
  * @author  Christoph Kappestein <christoph.kappestein@gmail.com>
  * @license http://www.gnu.org/licenses/agpl-3.0
  * @link    http://fusio-project.org
  */
-class Token extends SchemaAbstract
+class MemoryTest extends \PHPUnit_Framework_TestCase
 {
-    public function getDefinition()
+    public function testConnection()
     {
-        $sb = $this->getSchemaBuilder('token');
-        $sb->integer('id');
-        $sb->string('token');
-        $sb->string('scope');
-        $sb->string('ip');
-        $sb->dateTime('expire');
-        $sb->dateTime('date');
+        $connection = new Memory();
 
-        return $sb->getProperty();
+        $config = new Parameters(['key' => 'foo']);
+
+        $this->assertEquals('Memory', $connection->getName());
+        $this->assertInstanceOf(Connection::class, $connection->getConnection($config));
     }
 }

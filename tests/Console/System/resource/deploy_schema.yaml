@@ -1,0 +1,24 @@
+schema:
+  Test-Schema: >
+    {
+      "title": "test",
+      "type": "object",
+      "properties": {
+        "foo": {
+          "type": "string"
+        }
+      }
+    }
+  Ref-Schema: >
+    {
+      "title": "test",
+      "type": "object",
+      "properties": {
+        "content": {
+          "$ref": "schema:///Test-Schema"
+        },
+        "title": {
+          "$ref": "schema:///Test-Schema#/properties/foo"
+        }
+      }
+    }
